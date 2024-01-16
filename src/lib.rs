@@ -1,5 +1,5 @@
-pub(crate) static ALGORITHM:ring::hmac::Algorithm = ring::hmac::HMAC_SHA256;
-pub(crate) const ALGORITHM_LEN:usize = ring::digest::SHA256_OUTPUT_LEN;
+pub(crate) static ALGORITHM: ring::hmac::Algorithm = ring::hmac::HMAC_SHA256;
+pub(crate) const ALGORITHM_LEN: usize = ring::digest::SHA256_OUTPUT_LEN;
 pub(crate) type DigestBytes = [u8; ALGORITHM_LEN];
 
 mod key_builder;
@@ -13,7 +13,7 @@ impl From<SigningKey> for Signer {
 }
 impl Signer {
     pub fn sign(&self, contents: impl AsRef<[u8]>) -> String {
-        let tag = ring::hmac::sign(&self.0.into(),contents.as_ref());
+        let tag = ring::hmac::sign(&self.0.into(), contents.as_ref());
         hex::encode(tag.as_ref())
     }
 }

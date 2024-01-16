@@ -1,6 +1,4 @@
-use crate::ALGORITHM;
-
-use super::DigestBytes;
+use super::{DigestBytes, ALGORITHM};
 use ring::hmac;
 use ring::hmac::Key;
 use time::Date;
@@ -14,30 +12,24 @@ pub struct DateRegionServiceKey(DigestBytes);
 #[derive(Clone, Copy, PartialEq, Debug)]
 pub struct SigningKey(DigestBytes);
 
-impl Into<Key> for DateKey {
-    fn into(self) -> Key {
-        Key::new(ALGORITHM, &self.0)
+impl From<DateKey> for Key {
+    fn from(value: DateKey) -> Self {
+        Key::new(ALGORITHM, &value.0)
     }
 }
-impl Into<Key> for DateRegionKey {
-    fn into(self) -> Key {
-        Key::new(ALGORITHM, &self.0)
+impl From<DateRegionKey> for Key {
+    fn from(value: DateRegionKey) -> Self {
+        Key::new(ALGORITHM, &value.0)
     }
 }
-impl Into<Key> for DateRegionServiceKey {
-    fn into(self) -> Key {
-        Key::new(ALGORITHM, &self.0)
+impl From<DateRegionServiceKey> for Key {
+    fn from(value: DateRegionServiceKey) -> Self {
+        Key::new(ALGORITHM, &value.0)
     }
 }
-impl Into<Key> for SigningKey {
-    fn into(self) -> Key {
-        Key::new(ALGORITHM, &self.0)
-    }
-}
-
-impl SigningKey {
-    pub fn hmac_key<'a>(&'a self) -> Key {
-        Key::new(ALGORITHM, &self.0)
+impl From<SigningKey> for Key {
+    fn from(value: SigningKey) -> Self {
+        Key::new(ALGORITHM, &value.0)
     }
 }
 

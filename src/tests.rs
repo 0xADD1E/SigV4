@@ -7,28 +7,28 @@ fn it_works_nicely() {
     let creq = "AWS4-HMAC-SHA256\n20150830T123600Z\n20150830/us-east-1/iam/aws4_request\nf536975d06c0309214f805bb90ccff089219ecd68b2577efef23edd43b7e1a59";
     let date = Date::from_calendar_date(2015, Month::August, 30).expect("Hardcoded date");
 
-    let normal_signing_key:SigningKey = KeyBuilder::default()
+    let normal_signing_key: SigningKey = KeyBuilder::default()
         .secret_access_key(secret_access_key)
         .date(date)
         .region("us-east-1")
         .service("iam")
         .aws_signing_key();
 
-    let date_key:DateKey = KeyBuilder::default()
+    let date_key: DateKey = KeyBuilder::default()
         .secret_access_key(secret_access_key)
         .date(date)
         .date_key();
-    let date_region_key:DateRegionKey = KeyBuilder::from(date_key)
+    let date_region_key: DateRegionKey = KeyBuilder::from(date_key)
         .region("us-east-1")
         .date_region_key();
-    let date_region_service_key:DateRegionServiceKey = KeyBuilder::from(date_region_key)
+    let date_region_service_key: DateRegionServiceKey = KeyBuilder::from(date_region_key)
         .service("iam")
         .date_region_service_key();
-    let aws_signing_key:SigningKey = KeyBuilder::from(date_region_service_key).aws_signing_key();
+    let aws_signing_key: SigningKey = KeyBuilder::from(date_region_service_key).aws_signing_key();
 
-    assert_eq!(aws_signing_key,normal_signing_key);
+    assert_eq!(aws_signing_key, normal_signing_key);
 
-    let _custom_signing_key:SigningKey = KeyBuilder::new("PROMPT4")
+    let _custom_signing_key: SigningKey = KeyBuilder::new("PROMPT4")
         .secret_access_key(secret_access_key)
         .date(date)
         .region("borders-are-fake-1")
